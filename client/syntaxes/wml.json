@@ -1,0 +1,689 @@
+{
+    "information_for_contributors": [
+        "This file has been converted from https://github.com/textmate/html.tmbundle/blob/master/Syntaxes/HTML.plist",
+        "If you want to provide a fix or improvement, please create a pull request against the original repository.",
+        "Once accepted there, we are happy to receive an update request."
+    ],
+    "version": "https://github.com/textmate/html.tmbundle/commit/a723f08ebd49c67c22aca08dd8f17d0bf836ec93",
+    "fileTypes": [
+        "wml.xml"
+    ],
+    "firstLineMatch": "/^<\\?xml\\s*version=\"1.0\"\\s*encoding=\"(utf-8|UTF-8)\"\\s*\\?>/",
+    "injections": {
+        "R:text.wml.xml - (comment.block, text.html source)": {
+            "comment": "Use R: to ensure this matches after any other injections.",
+            "patterns": [{
+                "match": "<",
+                "name": "invalid.illegal.bad-angle-bracket.wml.xml"
+            }]
+        }
+    },
+    "keyEquivalent": "^~P",
+    "name": "PAGE",
+    "patterns": [{
+            "begin": "(<)([a-zA-Z][a-zA-Z0-9:-]*)(?=[^>]*></\\2>)",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.wml.xml"
+                },
+                "2": {
+                    "name": "entity.name.tag.wml.xml"
+                }
+            },
+            "end": "(>(<)/)(\\2)(>)",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.wml.xml"
+                },
+                "2": {
+                    "name": "meta.scope.between-tag-pair.wml.xml"
+                },
+                "3": {
+                    "name": "entity.name.tag.wml.xml"
+                },
+                "4": {
+                    "name": "punctuation.definition.tag.wml.xml"
+                }
+            },
+            "name": "meta.tag.any.wml.xml",
+            "patterns": [{
+                "include": "#tag-stuff"
+            }]
+        },
+        {
+            "begin": "(<\\?)(xml)",
+            "captures": {
+                "1": {
+                    "name": "punctuation.definition.tag.wml.xml"
+                },
+                "2": {
+                    "name": "entity.name.tag.wml.xml"
+                }
+            },
+            "end": "(\\?>)",
+            "name": "meta.tag.preprocessor.wml.xml",
+            "patterns": [{
+                    "include": "#tag-generic-attribute"
+                },
+                {
+                    "include": "#string-double-quoted"
+                },
+                {
+                    "include": "#string-single-quoted"
+                }
+            ]
+        },
+        {
+            "begin": "<!--",
+            "captures": {
+                "0": {
+                    "name": "punctuation.definition.comment.wml.xml"
+                }
+            },
+            "end": "--\\s*>",
+            "name": "comment.block.wml.xml",
+            "patterns": [{
+                    "match": "--",
+                    "name": "invalid.illegal.bad-comments-or-CDATA.wml.xml"
+                },
+                {
+                    "include": "#embedded-code"
+                }
+            ]
+        },
+        {
+            "begin": "<!",
+            "captures": {
+                "0": {
+                    "name": "punctuation.definition.tag.wml.xml"
+                }
+            },
+            "end": ">",
+            "name": "meta.tag.sgml.wml.xml",
+            "patterns": [{
+                    "begin": "(?i:DOCTYPE)",
+                    "captures": {
+                        "1": {
+                            "name": "entity.name.tag.doctype.wml.xml"
+                        }
+                    },
+                    "end": "(?=>)",
+                    "name": "meta.tag.sgml.doctype.wml.xml",
+                    "patterns": [{
+                        "match": "\"[^\">]*\"",
+                        "name": "string.quoted.double.doctype.identifiers-and-DTDs.wml.xml"
+                    }]
+                },
+                {
+                    "begin": "\\[CDATA\\[",
+                    "end": "]](?=>)",
+                    "name": "constant.other.inline-data.wml.xml"
+                },
+                {
+                    "match": "(\\s*)(?!--|>)\\S(\\s*)",
+                    "name": "invalid.illegal.bad-comments-or-CDATA.wml.xml"
+                }
+            ]
+        },
+        {
+            "include": "#embedded-code"
+        },
+        {
+            "begin": "(^[ \\t]+)?(?=<(?i:style))",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.whitespace.embedded.leading.wml.xml"
+                }
+            },
+            "end": "(?!\\G)([ \\t]*$\\n?)?",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.whitespace.embedded.trailing.wml.xml"
+                }
+            },
+            "patterns": [{
+                "begin": "(<)((?i:style))\\b",
+                "beginCaptures": {
+                    "0": {
+                        "name": "meta.tag.metadata.style.wml.xml"
+                    },
+                    "1": {
+                        "name": "punctuation.definition.tag.begin.wml.xml"
+                    },
+                    "2": {
+                        "name": "entity.name.tag.wml.xml"
+                    }
+                },
+                "end": "(/>)|((<)/)((?i:style))(>)",
+                "endCaptures": {
+                    "0": {
+                        "name": "meta.tag.metadata.style.wml.xml"
+                    },
+                    "1": {
+                        "name": "punctuation.definition.tag.end.wml.xml"
+                    },
+                    "2": {
+                        "name": "punctuation.definition.tag.begin.wml.xml"
+                    },
+                    "3": {
+                        "name": "source.css"
+                    },
+                    "4": {
+                        "name": "entity.name.tag.wml.xml"
+                    },
+                    "5": {
+                        "name": "punctuation.definition.tag.end.wml.xml"
+                    }
+                },
+                "name": "meta.embedded.block.wml.xml",
+                "patterns": [{
+                        "begin": "\\G",
+                        "captures": {
+                            "1": {
+                                "name": "punctuation.definition.tag.end.wml.xml"
+                            }
+                        },
+                        "end": "(?=/>)|(>)",
+                        "name": "meta.tag.metadata.style.wml.xml",
+                        "patterns": [{
+                            "include": "#tag-stuff"
+                        }]
+                    },
+                    {
+                        "begin": "(?!\\G)",
+                        "end": "(?=</(?i:style))",
+                        "name": "source.css",
+                        "patterns": [{
+                                "include": "#embedded-code"
+                            },
+                            {
+                                "include": "source.css"
+                            }
+                        ]
+                    }
+                ]
+            }]
+        },
+        {
+            "begin": "(^[ \\t]+)?(?=<(?i:script))",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.whitespace.embedded.leading.wml.xml"
+                }
+            },
+            "end": "(?!\\G)([ \\t]*$\\n?)?",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.whitespace.embedded.trailing.wml.xml"
+                }
+            },
+            "patterns": [{
+                "begin": "(<)((?i:script))\\b",
+                "beginCaptures": {
+                    "0": {
+                        "name": "meta.tag.metadata.script.wml.xml"
+                    },
+                    "1": {
+                        "name": "punctuation.definition.tag.begin.wml.xml"
+                    },
+                    "2": {
+                        "name": "entity.name.tag.wml.xml"
+                    }
+                },
+                "end": "(/>)|(/)((?i:script))(>)",
+                "endCaptures": {
+                    "0": {
+                        "name": "meta.tag.metadata.script.wml.xml"
+                    },
+                    "1": {
+                        "name": "punctuation.definition.tag.end.wml.xml"
+                    },
+                    "2": {
+                        "name": "punctuation.definition.tag.begin.wml.xml"
+                    },
+                    "3": {
+                        "name": "entity.name.tag.wml.xml"
+                    },
+                    "4": {
+                        "name": "punctuation.definition.tag.end.wml.xml"
+                    }
+                },
+                "name": "meta.embedded.block.wml.xml",
+                "patterns": [{
+                    "begin": "\\G",
+                    "end": "(?=/>|/)",
+                    "patterns": [{
+                            "begin": "(>)",
+                            "beginCaptures": {
+                                "0": {
+                                    "name": "meta.tag.metadata.script.wml.xml"
+                                },
+                                "1": {
+                                    "name": "punctuation.definition.tag.end.wml.xml"
+                                }
+                            },
+                            "end": "((<))(?=/(?i:script))",
+                            "endCaptures": {
+                                "0": {
+                                    "name": "meta.tag.metadata.script.wml.xml"
+                                },
+                                "1": {
+                                    "name": "punctuation.definition.tag.begin.wml.xml"
+                                },
+                                "2": {
+                                    "name": "source.js"
+                                }
+                            },
+                            "patterns": [{
+                                "begin": "\\G",
+                                "end": "(?=</(?i:script))",
+                                "name": "source.js",
+                                "patterns": [{
+                                        "begin": "(^[ \\t]+)?(?=//)",
+                                        "beginCaptures": {
+                                            "1": {
+                                                "name": "punctuation.whitespace.comment.leading.js"
+                                            }
+                                        },
+                                        "end": "(?!\\G)",
+                                        "patterns": [{
+                                            "begin": "//",
+                                            "beginCaptures": {
+                                                "0": {
+                                                    "name": "punctuation.definition.comment.js"
+                                                }
+                                            },
+                                            "end": "(?=</script)|\\n",
+                                            "name": "comment.line.double-slash.js"
+                                        }]
+                                    },
+                                    {
+                                        "begin": "/\\*",
+                                        "captures": {
+                                            "0": {
+                                                "name": "punctuation.definition.comment.js"
+                                            }
+                                        },
+                                        "end": "\\*/|(?=</script)",
+                                        "name": "comment.block.js"
+                                    },
+                                    {
+                                        "include": "source.js"
+                                    }
+                                ]
+                            }]
+                        },
+                        {
+                            "begin": "\\G",
+                            "end": "(?i:(?=/?>|type(?=[\\s=])(?!\\s*=\\s*('|\"|)(text/(javascript|ecmascript|babel)|application/((x-)?javascript|ecmascript|babel)|module)[\\s\"'>])))",
+                            "name": "meta.tag.metadata.script.wml.xml",
+                            "patterns": [{
+                                "include": "#tag-stuff"
+                            }]
+                        },
+                        {
+                            "begin": "(?=(?i:type\\s*=\\s*('|\"|)(text/(x-handlebars|(x-(handlebars-)?|ng-)?template|wml.xml)[\\s\"'>])))",
+                            "end": "((<))(?=/(?i:script))",
+                            "endCaptures": {
+                                "0": {
+                                    "name": "meta.tag.metadata.script.wml.xml"
+                                },
+                                "1": {
+                                    "name": "punctuation.definition.tag.begin.wml.xml"
+                                },
+                                "2": {
+                                    "name": "text.wml.xml.basic"
+                                }
+                            },
+                            "patterns": [{
+                                    "begin": "\\G",
+                                    "end": "(>)|(?=/>)",
+                                    "endCaptures": {
+                                        "1": {
+                                            "name": "punctuation.definition.tag.end.wml.xml"
+                                        }
+                                    },
+                                    "name": "meta.tag.metadata.script.wml.xml",
+                                    "patterns": [{
+                                        "include": "#tag-stuff"
+                                    }]
+                                },
+                                {
+                                    "begin": "(?!\\G)",
+                                    "end": "(?=</(?i:script))",
+                                    "name": "text.wml.xml.basic",
+                                    "patterns": [{
+                                        "include": "text.wml.xml.basic"
+                                    }]
+                                }
+                            ]
+                        },
+                        {
+                            "begin": "(?=(?i:type))",
+                            "end": "(<)(?=/(?i:script))",
+                            "endCaptures": {
+                                "0": {
+                                    "name": "meta.tag.metadata.script.wml.xml"
+                                },
+                                "1": {
+                                    "name": "punctuation.definition.tag.begin.wml.xml"
+                                }
+                            },
+                            "patterns": [{
+                                    "begin": "\\G",
+                                    "end": "(>)|(?=/>)",
+                                    "endCaptures": {
+                                        "1": {
+                                            "name": "punctuation.definition.tag.end.wml.xml"
+                                        }
+                                    },
+                                    "name": "meta.tag.metadata.script.wml.xml",
+                                    "patterns": [{
+                                        "include": "#tag-stuff"
+                                    }]
+                                },
+                                {
+                                    "begin": "(?!\\G)",
+                                    "end": "(?=</(?i:script))",
+                                    "name": "source.unknown"
+                                }
+                            ]
+                        }
+                    ]
+                }]
+            }]
+        },
+        {
+            "begin": "(</?)((?i:body|head|wml.xml)\\b)",
+            "captures": {
+                "1": {
+                    "name": "punctuation.definition.tag.wml.xml"
+                },
+                "2": {
+                    "name": "entity.name.tag.structure.any.wml.xml"
+                }
+            },
+            "end": "(>)",
+            "name": "meta.tag.structure.any.wml.xml",
+            "patterns": [{
+                "include": "#tag-stuff"
+            }]
+        },
+        {
+            "begin": "(</?)((?i:address|blockquote|dd|div|section|article|aside|header|footer|nav|menu|dl|dt|fieldset|form|frame|frameset|h1|h2|h3|h4|h5|h6|iframe|noframes|object|ol|p|ul|applet|center|dir|hr|pre)\\b)",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.begin.wml.xml"
+                },
+                "2": {
+                    "name": "entity.name.tag.block.any.wml.xml"
+                }
+            },
+            "end": "(>)",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.end.wml.xml"
+                }
+            },
+            "name": "meta.tag.block.any.wml.xml",
+            "patterns": [{
+                "include": "#tag-stuff"
+            }]
+        },
+        {
+            "begin": "(</?)((?i:a|abbr|acronym|area|b|base|basefont|bdo|big|br|button|caption|cite|code|col|colgroup|del|dfn|em|font|head|page|i|img|input|ins|isindex|kbd|label|legend|li|link|map|meta|noscript|optgroup|option|param|q|s|samp|script|select|small|span|strike|strong|style|sub|sup|table|tbody|td|textarea|tfoot|th|thead|title|tr|tt|u|var)\\b(?!-))",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.begin.wml.xml"
+                },
+                "2": {
+                    "name": "entity.name.tag.inline.any.wml.xml"
+                }
+            },
+            "end": "((?: ?/)?>)",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.end.wml.xml"
+                }
+            },
+            "name": "meta.tag.inline.any.wml.xml",
+            "patterns": [{
+                "include": "#tag-stuff"
+            }]
+        },
+        {
+            "begin": "(</?)([a-zA-Z][a-zA-Z0-9:-]*)",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.begin.wml.xml"
+                },
+                "2": {
+                    "name": "entity.name.tag.other.wml.xml"
+                }
+            },
+            "end": "(/?>)",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.end.wml.xml"
+                }
+            },
+            "name": "meta.tag.other.wml.xml",
+            "patterns": [{
+                "include": "#tag-stuff"
+            }]
+        },
+        {
+            "include": "#entities"
+        },
+        {
+            "match": "<>",
+            "name": "invalid.illegal.incomplete.wml.xml"
+        }
+    ],
+    "repository": {
+        "embedded-code": {
+            "patterns": [{
+                    "include": "#smarty"
+                },
+                {
+                    "include": "#python"
+                }
+            ]
+        },
+        "entities": {
+            "patterns": [{
+                    "captures": {
+                        "1": {
+                            "name": "punctuation.definition.entity.wml.xml"
+                        },
+                        "3": {
+                            "name": "punctuation.definition.entity.wml.xml"
+                        }
+                    },
+                    "match": "(&)([a-zA-Z0-9]+|#[0-9]+|#[xX][0-9a-fA-F]+)(;)",
+                    "name": "constant.character.entity.wml.xml"
+                },
+                {
+                    "match": "&",
+                    "name": "invalid.illegal.bad-ampersand.wml.xml"
+                }
+            ]
+        },
+        "python": {
+            "begin": "(?:^\\s*)<\\?python(?!.*\\?>)",
+            "end": "\\?>(?:\\s*$\\n)?",
+            "name": "source.python.embedded.wml.xml",
+            "patterns": [{
+                "include": "source.python"
+            }]
+        },
+        "smarty": {
+            "patterns": [{
+                    "begin": "(\\{(literal)\\})",
+                    "captures": {
+                        "1": {
+                            "name": "source.smarty.embedded.wml.xml"
+                        },
+                        "2": {
+                            "name": "support.function.built-in.smarty"
+                        }
+                    },
+                    "end": "(\\{/(literal)\\})"
+                },
+                {
+                    "begin": "{{|{",
+                    "disabled": 1,
+                    "end": "}}|}",
+                    "name": "source.smarty.embedded.wml.xml",
+                    "patterns": [{
+                        "include": "source.smarty"
+                    }]
+                }
+            ]
+        },
+        "string-double-quoted": {
+            "begin": "\"",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.begin.wml.xml"
+                }
+            },
+            "end": "\"",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.end.wml.xml"
+                }
+            },
+            "name": "string.quoted.double.wml.xml",
+            "patterns": [{
+                    "include": "#embedded-code"
+                },
+                {
+                    "include": "#entities"
+                }
+            ]
+        },
+        "string-single-quoted": {
+            "begin": "'",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.begin.wml.xml"
+                }
+            },
+            "end": "'",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.end.wml.xml"
+                }
+            },
+            "name": "string.quoted.single.wml.xml",
+            "patterns": [{
+                    "include": "#embedded-code"
+                },
+                {
+                    "include": "#entities"
+                }
+            ]
+        },
+        "tag-generic-attribute": {
+            "match": "(?<=[^=])\\b([a-zA-Z0-9:-]+)",
+            "name": "entity.other.attribute-name.wml.xml"
+        },
+        "tag-id-attribute": {
+            "begin": "\\b(id)\\b\\s*(=)",
+            "captures": {
+                "1": {
+                    "name": "entity.other.attribute-name.id.wml.xml"
+                },
+                "2": {
+                    "name": "punctuation.separator.key-value.wml.xml"
+                }
+            },
+            "end": "(?!\\G)(?<='|\"|[^\\s<>/])",
+            "name": "meta.attribute-with-value.id.wml.xml",
+            "patterns": [{
+                    "begin": "\"",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.string.begin.wml.xml"
+                        }
+                    },
+                    "contentName": "meta.toc-list.id.wml.xml",
+                    "end": "\"",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.string.end.wml.xml"
+                        }
+                    },
+                    "name": "string.quoted.double.wml.xml",
+                    "patterns": [{
+                            "include": "#embedded-code"
+                        },
+                        {
+                            "include": "#entities"
+                        }
+                    ]
+                },
+                {
+                    "begin": "'",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.string.begin.wml.xml"
+                        }
+                    },
+                    "contentName": "meta.toc-list.id.wml.xml",
+                    "end": "'",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.string.end.wml.xml"
+                        }
+                    },
+                    "name": "string.quoted.single.wml.xml",
+                    "patterns": [{
+                            "include": "#embedded-code"
+                        },
+                        {
+                            "include": "#entities"
+                        }
+                    ]
+                },
+                {
+                    "captures": {
+                        "0": {
+                            "name": "meta.toc-list.id.wml.xml"
+                        }
+                    },
+                    "match": "(?<==)(?:[^\\s<>/'\"]|/(?!>))+",
+                    "name": "string.unquoted.wml.xml"
+                }
+            ]
+        },
+        "tag-stuff": {
+            "patterns": [{
+                    "include": "#tag-id-attribute"
+                },
+                {
+                    "include": "#tag-generic-attribute"
+                },
+                {
+                    "include": "#string-double-quoted"
+                },
+                {
+                    "include": "#string-single-quoted"
+                },
+                {
+                    "include": "#embedded-code"
+                },
+                {
+                    "include": "#unquoted-attribute"
+                }
+            ]
+        },
+        "unquoted-attribute": {
+            "match": "(?<==)(?:[^\\s<>/'\"]|/(?!>))+",
+            "name": "string.unquoted.wml.xml"
+        }
+    },
+    "scopeName": "text.wml.xml.basic",
+    "uuid": "17994EC8-6B1D-11D9-AC3A-000D93589AF6"
+}

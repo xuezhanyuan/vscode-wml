@@ -1,0 +1,12 @@
+{
+    "wml template": {
+        "prefix": "wml",
+        "body": [
+            "<?xml version=\"1.0\" encoding=\"utf-8\" ?>",
+            "<page>",
+            "   ",
+            "</page>"
+        ],
+        "description": "Simple page starting point"
+    }
+}

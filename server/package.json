@@ -1,0 +1,29 @@
+{
+    "name": "vscode-wml-languageserver",
+    "description": "WML language server",
+    "version": "1.0.0",
+    "author": "Adolph",
+    "license": "MIT",
+    "engines": {
+        "node": "*"
+    },
+    "dependencies": {
+        "jquery": "^3.2.1",
+        "vscode-css-languageservice": "^2.1.0",
+        "vscode-languageserver": "^3.1.0",
+        "vscode-nls": "^2.0.2",
+        "vscode-uri": "^1.0.0",
+        "vscode-wml-languageservice": "file:vscode-wml-languageservice-1.0.0.tgz"
+    },
+    "devDependencies": {
+        "@types/mocha": "^2.2.33",
+        "@types/node": "^6.0.52",
+        "mocha": "^2.4.5",
+        "tslint": "^5.1.0",
+        "typescript": "^2.1.5"
+    },
+    "scripts": {
+        "compile": "installServerIntoExtension ../client ./package.json ./tsconfig.json && tsc -p .",
+        "watch": "installServerIntoExtension ../client ./package.json ./tsconfig.json && tsc --watch -p ."
+    }
+}

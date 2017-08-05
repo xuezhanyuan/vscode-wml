@@ -1,0 +1,64 @@
+{
+    "name": "vscode-wml-languageclient",
+    "description": "VSCode part of a language client",
+    "author": "adolph",
+    "license": "MIT",
+    "aiKey": "6ea35887-6890-4492-b076-d3c25257acf5",
+    "version": "0.0.1",
+    "publisher": "vscode",
+    "engines": {
+        "vscode": "^1.8.0"
+    },
+    "activationEvents": [
+        "onLanguage:wml"
+    ],
+    "main": "./out/src/wmlMain",
+    "contributes": {
+        "languages": [
+            {
+                "id": "wml",
+                "aliases": [
+                    "wml"
+                ],
+                "extensions": [
+                    ".wml.xml"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "wml",
+                "scopeName": "text.wml.xml.basic",
+                "path": "./syntaxes/wml.json",
+                "embeddedLanguages": {
+                    "text.wml.xml": "wml",
+                    "source.css": "css",
+                    "source.js": "javascript"
+                }
+            }
+        ],
+        "snippets": [
+            {
+                "language": "wml",
+                "path": "./snippet/wml.json"
+            }
+        ]
+    },
+    "scripts": {
+        "compile": "tsc -watch -p ./",
+        "update-vscode": "node ./node_modules/vscode/bin/install",
+        "postinstall": "node ./node_modules/vscode/bin/install"
+    },
+    "devDependencies": {
+        "@types/mocha": "^2.2.33",
+        "@types/node": "^6.0.52",
+        "typescript": "^2.1.5",
+        "vscode": "^1.1.4"
+    },
+    "dependencies": {
+        "vscode-extension-telemetry": "0.0.8",
+        "vscode-languageclient": "^3.1.0",
+        "vscode-wml-languageservice": "file:vscode-wml-languageservice-1.0.0.tgz"
+    }
+}

@@ -1,0 +1,11 @@
+.vscode/
+lib/test/
+lib/**/*.js.map
+lib/*/*.d.ts
+!lib/*/wmlScanner.d.ts
+src/
+test/
+build/
+.eslintrc
+.gitignore
+gulpfile.js
